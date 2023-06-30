@@ -33,7 +33,7 @@ bot.onText(/^(?!\/).+$/, (msg) => {
   sendDatatoServer(amount, referralCode, uuid)
     .then(() => {
         let message = `Данные успешно отправлены на сервер.\n\n`
-        message += `Ссылка на оплату: https://payment.ros-belet.ru/payment?orderId=${uuid}`
+        message += `Ссылка на оплату: https://payment.ros-belet.ru/?orderId=${uuid}`
       bot.sendMessage(chatId, message);
     })
     .catch((error) => {
