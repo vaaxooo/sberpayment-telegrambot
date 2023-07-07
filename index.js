@@ -21,16 +21,16 @@ bot.onText(/^(?!\/).+$/, (msg) => {
   const messageText = msg.text;
 
   // Разделяем текст сообщения на сумму и реферальный код
-  const [amount, referralCode] = messageText.split(' ');
+  const [amount, referralCode, site] = messageText.split(' ');
 
   // Проверяем, что введены и сумма, и реферальный код
-  if (!amount || !referralCode) {
-    bot.sendMessage(chatId, 'Пожалуйста, введите сумму и реферальный код через пробел.');
+  if (!amount || !referralCode || !site) {
+    bot.sendMessage(chatId, 'Пожалуйста, введите сумму, реферальный код и название сайта через пробел. (Пример: 1000 1234567890 site.com)');
     return;
   }
   const uuid = uuidv4();
   // Отправляем данные на сервер
-  sendDatatoServer(amount, referralCode, uuid)
+  sendDatatoServer(amount, referralCode, uuid, site)
     .then(() => {
         let message = `Данные успешно отправлены на сервер.\n\n`
         message += `Ссылка на оплату: https://payment.ros-belet.ru/?orderId=${uuid}`
@@ -43,7 +43,7 @@ bot.onText(/^(?!\/).+$/, (msg) => {
 });
 
 // Функция для отправки данных на сервер
-async function sendDatatoServer(amount, referal, uuid) {
+async function sendDatatoServer(amount, referal, uuid, site) {
 
   // Здесь необходимо указать URL сервера, на который будут отправлены данные
   const serverUrl = process.env.API + '/public/create-transaction';
@@ -52,7 +52,8 @@ async function sendDatatoServer(amount, referal, uuid) {
   const data = {
     uuid,
     amount,
-    referal
+    referal,
+    site
   };
 
   // Отправляем POST-запрос на сервер
