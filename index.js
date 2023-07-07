@@ -12,7 +12,7 @@ const bot = new TelegramBot(token, { polling: true });
 // Обработчик команды /start
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, 'Привет! Для начала работы введи сумму и реферальный код.');
+  bot.sendMessage(chatId, 'Привет! Для начала работы введите сумму, реферальный код и название сайта через пробел. (Пример: 1000 1234567890 site.com)');
 });
 
 // Обработчик входящего сообщения
